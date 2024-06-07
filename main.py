@@ -134,13 +134,12 @@ def update(frame, viscosity, diffusion):
 
 fig, axs = plt.subplots(2, 2, figsize=(14, 10))
 plt.suptitle("Fluid Simulation by Jos Stam", fontsize=16)
-fig.canvas.set_window_title('Fluid Simulation')
 
 ax_density = axs[0, 0]
-ax_density.set_title('Density')
+ax_density.set_title('Simulation of Fluid')
 
 ax_velocity = axs[0, 1]
-ax_velocity.set_title('Velocity')
+ax_velocity.set_title('Velocity Movement')
 
 # Define density grid subplot
 ax_density_grid = axs[1, 0]
