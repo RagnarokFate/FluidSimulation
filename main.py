@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 import ipywidgets as widgets
 from ipywidgets import interact, FloatSlider
+from matplotlib.animation import FuncAnimation,PillowWriter
 
 # Grid size
 N = 50
@@ -102,7 +103,7 @@ def add_source(x, s, dt):
 
 def add_initial_conditions():
     # Adding some initial conditions for testing
-    dens[N//2, N//2] = 100.0
+    dens[N//2, N//2] = 10.0
     u[N//2, N//2] = 1.0
     v[N//2, N//2] = 1.0
 
@@ -117,46 +118,38 @@ def update(frame, viscosity, diffusion):
     im.set_array(dens)
     
     # Update velocity quiver plot
-    quiver.set_UVC(u, v)
-    
-    # Update density grid
-    ax_density_grid.clear()
-    ax_density_grid.imshow(dens, cmap='gray', origin='lower')
-    ax_density_grid.set_title('Density Grid')
-    
-    # Update velocity grid
-    velocity_magnitude = np.sqrt(u**2 + v**2)
-    ax_velocity_grid.clear()
-    ax_velocity_grid.imshow(velocity_magnitude, cmap='viridis', origin='lower')
-    ax_velocity_grid.set_title('Velocity Grid')
-    
+    quiver.set_UVC(u, v)    
+
+    # Update frame text
+    frame_text.set_text(f'Frame: {frame}')
+    frame = frame + 1
     return [im, quiver]
 
-fig, axs = plt.subplots(2, 2, figsize=(14, 10))
+fig, axs = plt.subplots(1, 2, figsize=(14, 10))
 plt.suptitle("Fluid Simulation by Jos Stam", fontsize=16)
 
-ax_density = axs[0, 0]
+ax_density = axs[0]
 ax_density.set_title('Simulation of Fluid')
 
-ax_velocity = axs[0, 1]
+ax_velocity = axs[1]
 ax_velocity.set_title('Velocity Movement')
 
-# Define density grid subplot
-ax_density_grid = axs[1, 0]
-ax_density_grid.set_title('Density Grid')
 
-# Define velocity grid subplot
-ax_velocity_grid = axs[1, 1]
-ax_velocity_grid.set_title('Velocity Grid')
 
 # Plot initial density and velocity
 im = ax_density.imshow(dens, interpolation='bilinear', cmap='gray', origin='lower')
 quiver = ax_velocity.quiver(np.arange(N), np.arange(N), u, v)
 
+frame_text = fig.text(0.5, 0.90, '', ha='center', fontsize=12)
 
 
 def run_simulation(viscosity, diffusion):
-    ani = animation.FuncAnimation(fig, update, fargs=(viscosity, diffusion), frames=200, interval=50, blit=True)
+    ani = animation.FuncAnimation(fig, update, fargs=(viscosity, diffusion), frames=300, interval=20, blit=True)
+    # # Save the animation as an MP4 file
+    # ani.save('Fluid_Simulation.mp4', writer='ffmpeg', fps=10)
+
+    # Save the animation as a GIF file (optional)
+    ani.save('Fluid_Simulation.gif', writer=PillowWriter(fps=10))
     plt.show()
 
 
