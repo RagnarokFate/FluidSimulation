@@ -2,10 +2,9 @@
 
 This Python script simulates fluid dynamics using a grid-based method. It uses the Navier-Stokes equations for fluid motion and the advection-diffusion equation for density.
 
-![alt text](<IMG/Fluid Simulation.png>)
+<video controls src="output/diffusion_simulation_better.mp4" title="diffusion simulation"></video>
 
-
-![alt text](<IMG/Fluid Simulation 2.png>)
+<video controls src="output/Fluid_Simulation.mp4" title="Fluid Simulation"></video>
 
 
 
