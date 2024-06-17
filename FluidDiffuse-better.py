@@ -48,7 +48,7 @@ def update(frame):
 ani = FuncAnimation(fig, update, frames=num_iterations, blit=True)
 
 # Save the animation as an MP4 file
-ani.save('diffusion_simulation_better.mp4', writer='ffmpeg', fps=10)
+# ani.save('diffusion_simulation_better.mp4', writer='ffmpeg', fps=10)
 
 # Save the animation as a GIF file (optional)
 ani.save('diffusion_simulation_better.gif', writer=PillowWriter(fps=10))
