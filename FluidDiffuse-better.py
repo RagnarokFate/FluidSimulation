@@ -11,7 +11,7 @@ num_iterations = 100  # Number of iterations
 grid = np.zeros((grid_size, grid_size))
 
 # Set an initial concentration in the center
-initial_concentration = 1000.0
+initial_concentration = 100.0
 grid[grid_size // 2, grid_size // 2] = initial_concentration
 
 # Function to perform diffusion
