@@ -3,15 +3,12 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 import ipywidgets as widgets
 from ipywidgets import interact, FloatSlider
-from matplotlib.animation import FuncAnimation,PillowWriter
+from matplotlib.animation import FuncAnimation, PillowWriter
 
 # Grid size
 N = 50
 dt = 0.1
 
-# Initialize parameters
-diffusion = 0.01
-viscosity = 0.01
 
 def initialize_grid(N):
     return np.zeros((N, N))
@@ -41,6 +38,7 @@ def lin_solve(b, x, x0, a, c):
     for k in range(20):
         x[1:N-1, 1:N-1] = (x0[1:N-1, 1:N-1] + a * (x[0:N-2, 1:N-1] + x[2:N, 1:N-1] + x[1:N-1, 0:N-2] + x[1:N-1, 2:N])) / c
         set_boundary(b, x)
+        
 # Function to diffuse density and velocity fields
 def diffuse(b, x, x0, diff, dt):
     a = dt * diff * (N - 2) * (N - 2)
@@ -88,6 +86,10 @@ def project(u, v, p, div):
     set_boundary(1, u)
     set_boundary(2, v)
 
+# Function to add source to the density field
+def add_source(x, s, dt):
+    x += dt * s
+
 # Function to update the density field
 def density_step(x, x0, u, v, diff, dt):
     add_source(x, x0, dt)
@@ -111,35 +113,37 @@ def velocity_step(u, v, u0, v0, visc, dt):
     advect(2, v, v0, u0, v0, dt)
     project(u, v, u0, v0)
 
-# Function to add source to the density field
-def add_source(x, s, dt):
-    x += dt * s
-
-
-def modify_values(index, density_value, velocity_v_value,velocity_u_value):
-    dens[index, index] = density_value
-    v[index, index] = velocity_v_value  # x-component of velocity
-    u[index, index] = velocity_u_value  # y-component of velocity
-
+def modify_values(index, density_value, velocity_v_value, velocity_u_value):
+    dens[index, index] += density_value
+    v[index, index] += velocity_v_value  # y-component of velocity
+    u[index, index] += velocity_u_value  # x-component of velocity
 
 def add_initial_conditions():
-    # Adding some initial conditions for testing
-    modify_values(3 * N // 4, 1.0, -1.0, -1.0)
-    modify_values(N // 4, 1.0, 1.0, 1.0)
+    # modify_values(3* N // 4, 1.0, 10.0, -10.0)
+    # modify_values(N // 4, 1.0, 1.0, 10.0)
+    modify_values(5, 1, 1.0, 1.0)
 
 add_initial_conditions()
 
 def update(frame, viscosity, diffusion):
     global u, v, u_prev, v_prev, dens, dens_prev
-    add_initial_conditions()
+    if frame < 0:
+        add_initial_conditions()
     velocity_step(u, v, u_prev, v_prev, viscosity, dt)
     density_step(dens, dens_prev, u, v, diffusion, dt)
     
     # Update density plot
-    im.set_array(dens)
-    
+    im.set_array(dens / np.max(dens))
+    # im.set_array(dens)
+
+    # Normalize velocity components and handle division by zero
+    with np.errstate(divide='ignore', invalid='ignore'):
+        magnitude = np.sqrt(u**2 + v**2)
+        u_normalized = np.where(magnitude > 0, u / magnitude, 0)
+        v_normalized = np.where(magnitude > 0, v / magnitude, 0)
+
     # Update velocity quiver plot
-    quiver.set_UVC(u, v)    
+    quiver.set_UVC(u_normalized, v_normalized)
 
     # Update frame text
     frame_text.set_text(f'Frame: {frame}')
@@ -154,8 +158,6 @@ ax_density.set_title('Simulation of Fluid')
 ax_velocity = axs[1]
 ax_velocity.set_title('Velocity Movement')
 
-
-
 # Plot initial density and velocity
 im = ax_density.imshow(dens, interpolation='gaussian', cmap='Blues', origin='lower')
 quiver = ax_velocity.quiver(np.arange(N), np.arange(N), u, v)
@@ -163,18 +165,24 @@ quiver = ax_velocity.quiver(np.arange(N), np.arange(N), u, v)
 frame = int(0)
 frame_text = fig.text(0.5, 0.94, '', ha='center', fontsize=12)
 
+# Initialize parameters
+# # Gas constants - HIGH VISCOSITY + HIGH DIFFUSION - light Liquid
+# diffusion = 0.1
+# viscosity = 0.1
 
-def run_simulation(viscosity, diffusion):
-    ani = animation.FuncAnimation(fig, update, fargs=(viscosity, diffusion), frames=300, interval=20, blit=True)
-    # # Save the animation as an MP4 file
-    ani.save('Fluid_Simulation.mp4', writer='ffmpeg', fps=10)
+# Liquid constants - HIGH VISCOSITY + LOW DIFFUSION - thick liquid or syrup
+# diffusion = 0.00001
+# viscosity = 0.1
 
-    # Save the animation as a GIF file (optional)
-    # ani.save('Fluid_Simulation.gif', writer=PillowWriter(fps=10))
-    plt.show()
+# Liquid constants - LOW VISCOSITY + HIGH DIFFUSION - thick smoke
+# diffusion = 0.1
+# viscosity = 0.00001
 
+# Liquid constants - LOW VISCOSITY + LOW DIFFUSION - light smoke
+diffusion = 0.00001
+viscosity = 0.00001
 
+ani = animation.FuncAnimation(fig, update, fargs=(viscosity, diffusion), frames=300, interval=20, blit=True)
+# ani.save('Fluid_Simulation_no_projection.mp4', writer='ffmpeg', fps=10)
 
-interact(run_simulation, 
-         viscosity=FloatSlider(min=0.0, max=0.1, step=0.001, value=0.0001), 
-         diffusion=FloatSlider(min=0.0, max=0.1, step=0.001, value=0.0001))
+plt.show()
