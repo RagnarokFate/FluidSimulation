@@ -1,0 +1,30 @@
+﻿  fluid.cpp
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(378,10): error C2143: syntax error: missing ';' before '*'
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(378,10): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(378,40): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(580,9): error C3861: 'D3DXCreateFont': identifier not found
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(718,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(719,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(1800,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(1800,13): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(1973,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(1973,13): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2031,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2031,13): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2100,15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2100,13): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2206,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2353,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2355,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2357,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2359,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2364,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2366,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2368,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2370,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2700,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2703,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2753,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2753,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2793,54): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\user\Desktop\Documents\AdvancedGraphics\Fluid2\fluid.cpp(2841,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data

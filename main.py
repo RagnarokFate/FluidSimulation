@@ -121,13 +121,14 @@ def modify_values(index, density_value, velocity_v_value, velocity_u_value):
 def add_initial_conditions():
     # modify_values(3* N // 4, 1.0, 10.0, -10.0)
     # modify_values(N // 4, 1.0, 1.0, 10.0)
-    modify_values(5, 1, 1.0, 1.0)
+    modify_values(5, 1, 10.0, 10.0)
+    # modify_values(3* N // 4, 1, -10.0, -10.0)
 
 add_initial_conditions()
 
 def update(frame, viscosity, diffusion):
     global u, v, u_prev, v_prev, dens, dens_prev
-    if frame < 0:
+    if frame > 0:
         add_initial_conditions()
     velocity_step(u, v, u_prev, v_prev, viscosity, dt)
     density_step(dens, dens_prev, u, v, diffusion, dt)
@@ -178,11 +179,12 @@ frame_text = fig.text(0.5, 0.94, '', ha='center', fontsize=12)
 # diffusion = 0.1
 # viscosity = 0.00001
 
-# Liquid constants - LOW VISCOSITY + LOW DIFFUSION - light smoke
+# # Liquid constants - LOW VISCOSITY + LOW DIFFUSION - light smoke
 diffusion = 0.00001
 viscosity = 0.00001
 
-ani = animation.FuncAnimation(fig, update, fargs=(viscosity, diffusion), frames=300, interval=20, blit=True)
-# ani.save('Fluid_Simulation_no_projection.mp4', writer='ffmpeg', fps=10)
+ani = animation.FuncAnimation(fig, update, fargs=(viscosity, diffusion), frames=300, blit=True)
+# ani.save('Fluid_Simulation.mp4', writer='ffmpeg', fps=10)
+ani.save('Fluid_Simulation.gif', writer=PillowWriter(fps=10))
 
 plt.show()

@@ -2,11 +2,19 @@
 
 This Python script simulates fluid dynamics using a grid-based method. It uses the Navier-Stokes equations for fluid motion and the advection-diffusion equation for density.
 
-
+### Diffuse Simulation
 ![alt text](output/diffusion_simulation.gif)
 
+### Lagrangian versus Eulerian
+![alt text](output/Lagrangian_versus_Eulerian.gif)
 
+### Fluid with High Viscocity - Honey High intensity
 ![alt text](output/Fluid_Simulation.gif)
+
+### Fluid with Low Viscocity - Gas State
+![alt text](output/Gas_Simulation.gif)
+
+
 
 ## Requirements
 
