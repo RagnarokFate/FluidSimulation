@@ -6,7 +6,7 @@ This Python script simulates fluid dynamics using a grid-based method. It uses t
 ![alt text](output/diffusion_simulation.gif)
 
 ### Lagrangian versus Eulerian
-![alt text](output/Lagrangian_versus_Eulerian.gif)
+![Lagrangian_vs_Eulerian](https://github.com/RagnarokFate/FluidSimulation/assets/92100499/979d14d6-529f-463e-bc6a-7f725c82eb40)
 
 ### Fluid with High Viscocity - Honey High intensity
 ![alt text](output/Fluid_Simulation.gif)
