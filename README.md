@@ -31,12 +31,12 @@ This Python script simulates fluid dynamics using a grid-based method. It uses t
     pip install numpy matplotlib ipywidgets
     ```
 
-2. Download the Python script `fluid_simulation.py`.
+2. Download the Python script `main.py`.
 
 3. Run the script using Python:
 
     ```bash
-    python fluid_simulation.py
+    python main.py
     ```
 
 4. Once the script is running, an interactive widget will appear. Adjust the viscosity and diffusion parameters using the sliders to observe different fluid behaviors.
