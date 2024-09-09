@@ -72,6 +72,8 @@ def diffuse_weighted_average(grid, rate):
 
 # Setup the figure and axes
 fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+plt.suptitle("Fluid Diffusion", fontsize=16)
+
 cax_good = axs[0].imshow(grid_good, cmap='hot', interpolation='nearest')
 cax_bad = axs[1].imshow(grid_bad, cmap='hot', interpolation='nearest')
 cax_fluid = axs[2].imshow(grid_fluid, cmap='hot', interpolation='nearest')
@@ -82,7 +84,7 @@ fig.colorbar(cax_fluid, ax=axs[2])
 
 axs[0].set_title('Weight Average Diffusion')
 axs[1].set_title('SOD Diffusion')
-axs[2].set_title('Fluid Diffusion (Jos Stam)')
+axs[2].set_title('Smooth Diffusion (Jos Stam)')
 
 # Text annotation for frame number
 text_good = axs[0].text(0.02, 0.95, '', transform=axs[0].transAxes, color='white')
@@ -109,7 +111,7 @@ def update(frame):
 ani = FuncAnimation(fig, update, frames=num_iterations, blit=True)
 
 # Save the animation as an MP4 file
-# ani.save('diffusion_simulation.mp4', writer='ffmpeg', fps=10)
+ani.save('diffusion_simulation.mp4', writer='ffmpeg', fps=10)
 
 # Save the animation as a GIF file (optional)
 # ani.save('diffusion_simulation.gif', writer=PillowWriter(fps=10))

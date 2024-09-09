@@ -20,6 +20,7 @@ u_prev = initialize_grid(N)
 v_prev = initialize_grid(N)
 dens = initialize_grid(N)
 dens_prev = initialize_grid(N)
+pressure = initialize_grid(N)
 
 # Function to set boundary conditions
 def set_boundary(b, x):
@@ -73,6 +74,7 @@ def advect(b, d, d0, u, v, dt):
 
 # Function to project the velocity field
 def project(u, v, p, div):
+    global pressure
     # divergence of the velocity field
     h = 1.0 / N
     div[1:N-1, 1:N-1] = -0.5 * h * (u[2:N, 1:N-1] - u[0:N-2, 1:N-1] + v[1:N-1, 2:N] - v[1:N-1, 0:N-2])
@@ -85,6 +87,7 @@ def project(u, v, p, div):
     v[1:N-1, 1:N-1] -= 0.5 * (p[1:N-1, 2:N] - p[1:N-1, 0:N-2]) / h
     set_boundary(1, u)
     set_boundary(2, v)
+    pressure = p.copy()
 
 # Function to add source to the density field
 def add_source(x, s, dt):
@@ -118,18 +121,24 @@ def modify_values(index, density_value, velocity_v_value, velocity_u_value):
     v[index, index] += velocity_v_value  # y-component of velocity
     u[index, index] += velocity_u_value  # x-component of velocity
 
-def add_initial_conditions():
-    # modify_values(3* N // 4, 1.0, 10.0, -10.0)
-    # modify_values(N // 4, 1.0, 1.0, 10.0)
-    modify_values(5, 1, 10.0, 10.0)
-    # modify_values(3* N // 4, 1, -10.0, -10.0)
+def add_initial_conditions(frame):
+    angle = np.deg2rad(frame)
+    radius = 10.0
+    velocity_x = radius * np.cos(angle)
+    velocity_y = radius * np.sin(angle)
+    modify_values(N//2, 1, velocity_y, velocity_x)
 
-add_initial_conditions()
+    # modify_values(N//2, 1, 10.0, 10.0)
+    
+
+add_initial_conditions(0)
 
 def update(frame, viscosity, diffusion):
-    global u, v, u_prev, v_prev, dens, dens_prev
+    print(f"Updating frame: {frame}")  # Debug print
+
+    global u, v, u_prev, v_prev, dens, dens_prev, pressure
     if frame > 0:
-        add_initial_conditions()
+        add_initial_conditions(frame)
     velocity_step(u, v, u_prev, v_prev, viscosity, dt)
     density_step(dens, dens_prev, u, v, diffusion, dt)
     
@@ -145,12 +154,27 @@ def update(frame, viscosity, diffusion):
 
     # Update velocity quiver plot
     quiver.set_UVC(u_normalized, v_normalized)
+    
+    # # Update pressure plot
+    # pressure_min = np.min(pressure)
+    # pressure_max = np.max(pressure)
+    # pressure_range = pressure_max - pressure_min
+
+    # if pressure_range > 1e-5:  # Adjust this threshold if needed
+    #     pressure_normalized = (pressure - pressure_min) / pressure_range
+    # else:
+    #     pressure_normalized = np.zeros_like(pressure)
+
+    # Scale the pressure for visualization between 0 and 255
+    pressure_im.set_array(pressure * 255)
+    print(f"Pressure min: {np.min(pressure)}, max: {np.max(pressure)}")  # Debug print
+
 
     # Update frame text
     frame_text.set_text(f'Frame: {frame}')
-    return [im, quiver]
+    return [im, quiver,pressure_im,frame_text]
 
-fig, axs = plt.subplots(2, 1, figsize=(14, 10))
+fig, axs = plt.subplots(1, 3, figsize=(15, 10))
 plt.suptitle("Fluid Simulation by Jos Stam", fontsize=16)
 
 ax_density = axs[0]
@@ -159,11 +183,26 @@ ax_density.set_title('Simulation of Fluid')
 ax_velocity = axs[1]
 ax_velocity.set_title('Velocity Movement')
 
+ax_pressure = axs[2]
+ax_pressure.set_title('Pressure')
+
+
 # Plot initial density and velocity
 im = ax_density.imshow(dens, interpolation='gaussian', cmap='Blues', origin='lower')
-quiver = ax_velocity.quiver(np.arange(N), np.arange(N), u, v)
+quiver = ax_velocity.quiver(np.arange(N), np.arange(N), u, v, scale=50)
+ax_velocity.set_aspect('equal')
 
-frame = int(0)
+# Add color bar for density
+cbar_density = fig.colorbar(im, ax=ax_density)
+cbar_density.set_label('Density')
+
+# Plot initial pressure
+pressure_im = ax_pressure.imshow(pressure, interpolation='gaussian', cmap='coolwarm_r', origin='lower')
+
+# Add color bar for pressure
+cbar_pressure = fig.colorbar(pressure_im, ax=ax_pressure)
+cbar_pressure.set_label('Pressure')
+
 frame_text = fig.text(0.5, 0.94, '', ha='center', fontsize=12)
 
 # Initialize parameters
@@ -183,8 +222,8 @@ frame_text = fig.text(0.5, 0.94, '', ha='center', fontsize=12)
 diffusion = 0.00001
 viscosity = 0.00001
 
-ani = animation.FuncAnimation(fig, update, fargs=(viscosity, diffusion), frames=300, blit=True)
+ani = animation.FuncAnimation(fig, update, fargs=(viscosity, diffusion), frames=360, blit=False)
 # ani.save('Fluid_Simulation.mp4', writer='ffmpeg', fps=10)
-ani.save('Fluid_Simulation.gif', writer=PillowWriter(fps=10))
+# ani.save('Fluid_Simulation.gif', writer=PillowWriter(fps=10))
 
 plt.show()
